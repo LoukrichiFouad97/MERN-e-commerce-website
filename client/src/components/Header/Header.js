@@ -34,7 +34,7 @@ export function Header() {
                                             : "text-secondary"
                                     }
                                 >
-                                    <i class="fas fa-user">SIGN IN</i>
+                                    <i className="fas fa-user">SIGN IN</i>
                                 </NavLink>
                             </Nav.Link>
                         </Nav>
