@@ -1,3 +1,11 @@
 #main {
     min-height: 80vh;
 }
+
+.rating span {
+    margin: 0.1rem
+}
+
+.product-card h3 {
+    padding: 0.5rem 0;
+}
