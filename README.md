@@ -17,6 +17,16 @@ npm run server
 ```
 Don't forget to create ```.env``` file. which will contain the environment variables.
 
+# Backend
+### Dependancies
+- express 
+- dotenv
+- nodemon for dev only
+- concurrently for dev only
+- mongodb atlas 
+- mongoose
+- colors for debugging
+
 # Frontend 
 ### Dependancies
 - React
@@ -24,6 +34,7 @@ Don't forget to create ```.env``` file. which will contain the environment varia
 - React-router-dom
 - Redux
 - Font Awesome
+- Axios
 ### Components
 - Header
 - Footer

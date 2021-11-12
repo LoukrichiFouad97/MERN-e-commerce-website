@@ -1,22 +1,28 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { Row, Col, Image, Card, ListGroup, Button } from "react-bootstrap";
+import axios from "axios";
 
 import { ReviewStars } from "../../components/ReviewStars/ReviewStars";
-import Products from "../../products";
 
 export function ProductDetailScreen() {
     var { id } = useParams();
+    var [product, setProduct] = useState({});
 
-    var product = Products.find(function findProduct(product) {
-        return product._id === id;
-    });
-
-    console.log(product);
+    useEffect(
+        function handleProductEffect() {
+            async function fetchProduct() {
+                var { data } = await axios.get(`/api/products/${id}`);
+                setProduct(data);
+            }
+            fetchProduct();
+        },
+        [id]
+    );
 
     return (
         <>
-            <Link to="/" className="btn bg-light">
+            <Link to="/" className="btn bg-light my-3">
                 Go Back
             </Link>
             <Row>
