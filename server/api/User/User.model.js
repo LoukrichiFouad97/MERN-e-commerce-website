@@ -1,6 +1,6 @@
-import { Schema } from "mongoose";
+import mongoose from "mongoose";
 
-var userSchema = Schema(
+var userSchema = mongoose.Schema(
     {
         name: {
             type: "string",

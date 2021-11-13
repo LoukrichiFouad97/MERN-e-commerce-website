@@ -26,6 +26,7 @@ Don't forget to create ```.env``` file. which will contain the environment varia
 - mongodb atlas 
 - mongoose
 - colors for debugging
+- bcryptjs 
 
 # Frontend 
 ### Dependancies

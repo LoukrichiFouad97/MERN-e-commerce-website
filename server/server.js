@@ -2,7 +2,7 @@ import express from "express";
 import dotenv from "dotenv";
 import colors from "colors";
 
-import products from "./products.js";
+import products from "./data/products.js";
 import { dbConnect } from "./config/dbConnect.js";
 dotenv.config();
 
