@@ -39,6 +39,7 @@ Don't forget to create ```.env``` file. which will contain the environment varia
 - Header
 - Footer
 - ProductCard
+- ReviewStars
 - Slider
 
 
