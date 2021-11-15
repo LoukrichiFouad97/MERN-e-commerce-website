@@ -2,33 +2,30 @@ import express from "express";
 import dotenv from "dotenv";
 import colors from "colors";
 
-import products from "./data/products.js";
 import { dbConnect } from "./config/dbConnect.js";
-dotenv.config();
+import { errorHandler, handleNotFound } from "./middlewares/errorHandler.js";
 
+// Routes
+import productRoutes from "./api/Product/Product.route.js";
+
+dotenv.config();
 dbConnect();
 var app = express();
 
-app.get("/", function handleGetReq(req, res) {
-    res.send("Hello in node server");
-});
+// Routes
+app.use("/api/products", productRoutes);
 
-app.get("/api/products", function (req, res) {
-    res.json(products);
-});
+// Middlewares
+// app.use(handleNotFound);
+app.all("*", handleNotFound);
+app.use(errorHandler);
 
-app.get("/api/products/:id", function (req, res) {
-    var product = products.find(function findProduct(product) {
-        return product._id === req.params.id;
-    });
-
-    res.json(product);
-});
-
+// Server
 var port = process.env.PORT || 5000;
 app.listen(
-    5000,
+    port,
     console.log(
-        `Server running in ${process.env.NODE_ENV} mode on port ${port}`.yellow.bold
+        `Server running in ${process.env.NODE_ENV} mode on port ${port}`.yellow
+            .bold
     )
 );

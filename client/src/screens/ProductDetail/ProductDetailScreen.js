@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
-import { Row, Col, Image, Card, ListGroup, Button } from "react-bootstrap";
+import { Row, Col, Image, ListGroup, Button } from "react-bootstrap";
 import axios from "axios";
 
 import { ReviewStars } from "../../components/ReviewStars/ReviewStars";
@@ -70,7 +70,7 @@ export function ProductDetailScreen() {
                                     className="btn-block"
                                     variant="danger"
                                     type="button"
-                                    disabled={product.countInStock == 0}
+                                    disabled={product.countInStock === 0}
                                 >
                                     Add To Cart
                                 </Button>

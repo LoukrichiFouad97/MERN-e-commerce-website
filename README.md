@@ -33,6 +33,9 @@ Don't forget to create ```.env``` file. which will contain the environment varia
 - React
 - React-Bootstrap
 - React-router-dom
+- React-Redux
+- Redux-Thunk
+- Redux-devtools-extension
 - Redux
 - Font Awesome
 - Axios
