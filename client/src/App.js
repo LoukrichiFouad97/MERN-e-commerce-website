@@ -17,7 +17,10 @@ function App() {
                 <Container>
                     <Routes>
                         <Route path="/" element={<HomeScreen />} />
-                        <Route path="/cart" element={<CartScreen />} />
+                        <Route
+                            path="/cart/:productId"
+                            element={<CartScreen />}
+                        />
                         <Route path="/signin" element={<SigninScreen />} />
                         <Route
                             path="/product/:id"

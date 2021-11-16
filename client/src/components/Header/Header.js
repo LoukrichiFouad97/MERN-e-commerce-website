@@ -5,13 +5,7 @@ import { Link, NavLink } from "react-router-dom";
 export function Header() {
     return (
         <header>
-            <Navbar
-                className="fixed-top"
-                bg="dark"
-                variant="dark"
-                expand="lg"
-                collapseOnSelect
-            >
+            <Navbar bg="dark" variant="dark" expand="lg" collapseOnSelect>
                 <Container>
                     <Link to="/" style={{ textDecoration: "none" }}>
                         <Navbar.Brand>TechShop</Navbar.Brand>

@@ -1,0 +1,2 @@
+export var CART_ADD_ITEM = "CART_ADD_ITEM";
+export var CART_REMOVE_ITEM = "CART_REMOVE_ITEM";
