@@ -6,21 +6,24 @@ import { dbConnect } from "./config/dbConnect.js";
 import { errorHandler, handleNotFound } from "./middlewares/errorHandler.js";
 
 // Routes
-import productRoutes from "./api/Product/Product.route.js";
+import { productRoute } from "./api/Product/Product.route.js";
+import { userRoute } from "./api/User/User.route.js";
 
 dotenv.config();
 dbConnect();
 var app = express();
+app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
 
 // Routes
-app.use("/api/products", productRoutes);
+app.use("/api/products", productRoute);
+app.use("/api/users", userRoute);
 
 // Middlewares
-// app.use(handleNotFound);
 app.all("*", handleNotFound);
 app.use(errorHandler);
 
-// Server
+// Server Listening
 var port = process.env.PORT || 5000;
 app.listen(
     port,

@@ -1,9 +1,15 @@
 import express from "express";
 import { getAllProducts, getProductById } from "./Product.controller.js";
 
-var productRoutes = express.Router();
+export var productRoute = express.Router();
 
-productRoutes.get("/", getAllProducts);
-productRoutes.get("/:id", getProductById);
+// @desc    Fetch all products
+// @route   GET /api/products
+// @access  Public
+productRoute.route("/").get(getAllProducts);
 
-export default productRoutes;
+// @desc    Fetch singal product by its id
+// @route   GET /api/products/id
+// @access  Public
+productRoute.route("/:id").get(getProductById);
+
