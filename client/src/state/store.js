@@ -5,22 +5,30 @@ import thunk from "redux-thunk";
 import { cartReducer } from "./cart/cart.reducers";
 import { productListReducer } from "./products/products.reducers";
 import { productDetailsReducer } from "./productDetails/productDetails.reducers";
+import { userLoginReducer, userRegisterReducer } from "./users/users.reducers";
 
 var reducers = combineReducers({
     productList: productListReducer,
     productDetails: productDetailsReducer,
     cart: cartReducer,
+    userLogin: userLoginReducer,
+    userRegister: userRegisterReducer,
 });
 
 var cartItemsFromStorage = localStorage.getItem("cartItems")
     ? JSON.parse(localStorage.getItem("cartItems"))
     : [];
 
+var userLoginFromStorage = localStorage.getItem("userInfo")
+    ? JSON.parse(localStorage.getItem("userInfo"))
+    : null;
+
 var middlewares = [thunk];
 var initialState = {
     cart: {
         cartItems: cartItemsFromStorage,
     },
+    userLogin: { userInfo: userLoginFromStorage },
 };
 
 var store = createStore(

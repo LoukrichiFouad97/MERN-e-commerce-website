@@ -8,17 +8,21 @@ import { Loader } from "../../components/Loader/Loader";
 import { Message } from "../../components/Message/Message";
 import { login } from "../../state/users/users.actions";
 
-export function SigninScreen() {
+export function RegisterScreen() {
     var location = useLocation();
     var navigate = useNavigate();
+
+    var [name, setName] = useState("");
     var [email, setEmail] = useState("");
+    var [confirmPassword, setConfirmPassword] = useState("");
+    var [message, setMessage] = useState("");
     var [password, setPassword] = useState("");
+
     var dispatch = useDispatch();
-    var userLogin = useSelector((state) => state.userLogin);
-    var { loading, error, userInfo } = userLogin;
+    var userRegister = useSelector((state) => state.userRegister);
+    var { loading, error, userInfo } = userRegister;
 
     var redirect = location.search ? location.search.split("=")[1] : "/";
-    console.log(redirect);
 
     useEffect(() => {
         if (userInfo) {
@@ -29,15 +33,30 @@ export function SigninScreen() {
 
     function handleSubmit(e) {
         e.preventDefault(); // prevents browser from reloading
-        dispatch(login(email, password));
+        if (password !== confirmPassword) {
+            setMessage("Passwords do not match!!!");
+        } else {
+            dispatch(login(name, email, password));
+        }
     }
 
     return (
         <FormContainer>
-            <h1>Sign In</h1>
+            <h1>Sign Up</h1>
             {error && <Message variant="danger">{error}</Message>}
+            {message && <Message variant="danger">{message}</Message>}
             {loading && <Loader />}
             <Form onSubmit={handleSubmit}>
+                <Form.Group className="mb-3" controlId="email">
+                    <Form.Label>Name </Form.Label>
+                    <Form.Control
+                        type="text"
+                        placeholder="Enter name"
+                        value={name}
+                        onChange={(e) => setName(e.target.value)}
+                    />
+                </Form.Group>
+
                 <Form.Group className="mb-3" controlId="email">
                     <Form.Label>Email address</Form.Label>
                     <Form.Control
@@ -57,22 +76,29 @@ export function SigninScreen() {
                         onChange={(e) => setPassword(e.target.value)}
                     />
                 </Form.Group>
+
+                <Form.Group className="mb-3" controlId="password">
+                    <Form.Label>Confirm Password</Form.Label>
+                    <Form.Control
+                        type="password"
+                        placeholder="Confirm Password"
+                        value={ConfirmPassword}
+                        onChange={(e) => setConfirmPassword(e.target.value)}
+                    />
+                </Form.Group>
+
                 <Button variant="primary" type="submit">
-                    Sign in
+                    Sign Up
                 </Button>
             </Form>
 
             <Row className="py-3">
                 <Col>
-                    New Customer?{" "}
+                    Have an account?{" "}
                     <Link
-                        to={
-                            redirect
-                                ? `/register?redirect=${redirect}`
-                                : "/register"
-                        }
+                        to={redirect ? `/login?redirect=${redirect}` : "/login"}
                     >
-                        Register
+                        Login
                     </Link>
                 </Col>
             </Row>
