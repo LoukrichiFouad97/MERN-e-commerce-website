@@ -6,7 +6,7 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import { FormContainer } from "../../components/FormContainer/FormContainer";
 import { Loader } from "../../components/Loader/Loader";
 import { Message } from "../../components/Message/Message";
-import { login } from "../../state/users/users.actions";
+import { register } from "../../state/users/users.actions";
 
 export function RegisterScreen() {
     var location = useLocation();
@@ -32,11 +32,11 @@ export function RegisterScreen() {
     }, [navigate, userInfo, redirect]);
 
     function handleSubmit(e) {
-        e.preventDefault(); // prevents browser from reloading
+        e.preventDefault();
         if (password !== confirmPassword) {
             setMessage("Passwords do not match!!!");
         } else {
-            dispatch(login(name, email, password));
+            dispatch(register(name, email, password));
         }
     }
 
@@ -82,7 +82,7 @@ export function RegisterScreen() {
                     <Form.Control
                         type="password"
                         placeholder="Confirm Password"
-                        value={ConfirmPassword}
+                        value={confirmPassword}
                         onChange={(e) => setConfirmPassword(e.target.value)}
                     />
                 </Form.Group>

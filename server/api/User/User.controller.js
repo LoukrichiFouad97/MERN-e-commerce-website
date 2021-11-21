@@ -6,8 +6,12 @@ import { generateToken } from "../../utils/generateToken.js";
 export var authUser = asyncHandler(authUserHandler);
 export var getUserProfile = asyncHandler(getUserProfileHandler);
 export var createUser = asyncHandler(createUserHandler);
+export var updateUserProfile = asyncHandler(updateUserProfileHandler);
 
 //*************************  Functionality ***********************//
+// @desc    Authenticate user & get token
+// @route   POST /api/users/login
+// @access  Public
 async function authUserHandler(req, res) {
     var { email, password } = req.body;
 
@@ -29,6 +33,9 @@ async function authUserHandler(req, res) {
     }
 }
 
+// @desc    Get user profile
+// @route   POST /api/users/profile
+// @access  Private
 async function getUserProfileHandler(req, res) {
     var user = await User.findById(req.user).select("-password");
 
@@ -48,6 +55,9 @@ async function getUserProfileHandler(req, res) {
     }
 }
 
+// @desc    Create user profile
+// @route   POST /api/users/
+// @access  Public
 async function createUserHandler(req, res) {
     var { name, email, password } = req.body;
 
@@ -79,5 +89,34 @@ async function createUserHandler(req, res) {
             statusCode: 400,
             message: "Invalide user data.",
         });
+    }
+}
+
+// @desc    Update user profile
+// @route   PUT /api/users/profile
+// @access  Private
+async function updateUserProfileHandler(req, res) {
+    var user = await User.findById(req.user);
+    console.log(req.user)
+
+    if (user) {
+        user.name = req.body.name || user.name;
+        user.email = req.body.email || user.email;
+        if (req.body.password) {
+            user.password = req.body.password;
+        }
+
+        var updatedUser = await user.save();
+
+        res.status(201).json({
+            _id: updatedUser._id,
+            name: updatedUser.name,
+            email: updatedUser.email,
+            isAdmin: updatedUser.isAdmin,
+            token: generateToken(updatedUser._id),
+        });
+    } else {
+        res.status(404);
+        throw new Error("User not found");
     }
 }

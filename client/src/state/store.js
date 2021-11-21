@@ -5,7 +5,12 @@ import thunk from "redux-thunk";
 import { cartReducer } from "./cart/cart.reducers";
 import { productListReducer } from "./products/products.reducers";
 import { productDetailsReducer } from "./productDetails/productDetails.reducers";
-import { userLoginReducer, userRegisterReducer } from "./users/users.reducers";
+import {
+    userLoginReducer,
+    userRegisterReducer,
+    userDetailsReducer,
+    userUpdateProfileReducer,
+} from "./users/users.reducers";
 
 var reducers = combineReducers({
     productList: productListReducer,
@@ -13,6 +18,8 @@ var reducers = combineReducers({
     cart: cartReducer,
     userLogin: userLoginReducer,
     userRegister: userRegisterReducer,
+    userDetails: userDetailsReducer,
+    userUpdate: userUpdateProfileReducer,
 });
 
 var cartItemsFromStorage = localStorage.getItem("cartItems")
