@@ -11,9 +11,12 @@ import {
     USER_DETAILS_SUCCESS,
     USER_DETAILS_REQUEST,
     USER_DETAILS_FAIL,
+    USER_UPDATE_PROFILE_SUCCESS,
+    USER_UPDATE_PROFILE_REQUEST,
+    USER_UPDATE_PROFILE_FAIL,
 } from "./users.constants";
 
-export { login, logout, register, getUserDetails };
+export { login, logout, register, getUserDetails, updateUserProfile };
 
 function login(email, password) {
     return async function (dispatch) {
@@ -119,6 +122,35 @@ function getUserDetails(userId) {
         } catch (error) {
             dispatch({
                 type: USER_DETAILS_FAIL,
+                payload:
+                    error.response && error.response.data.message
+                        ? error.response.data.message
+                        : error.message,
+            });
+        }
+    };
+}
+
+function updateUserProfile(user) {
+    return async function (dispatch, getState) {
+        try {
+            dispatch({ type: USER_UPDATE_PROFILE_REQUEST });
+            var {
+                userLogin: { userInfo },
+            } = getState();
+
+            var config = {
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${userInfo.token}`,
+                },
+            };
+            var { data } = await axios.put(`/api/users/profile`, user, config);
+
+            dispatch({ type: USER_UPDATE_PROFILE_SUCCESS, payload: data });
+        } catch (error) {
+            dispatch({
+                type: USER_UPDATE_PROFILE_FAIL,
                 payload:
                     error.response && error.response.data.message
                         ? error.response.data.message

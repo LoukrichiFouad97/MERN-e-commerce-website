@@ -3,7 +3,10 @@ import { useDispatch, useSelector } from "react-redux";
 import { Row, Col, Form, Button } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 
-import { getUserDetails } from "../../state/users/users.actions";
+import {
+    getUserDetails,
+    updateUserProfile,
+} from "../../state/users/users.actions";
 import { Message } from "../../components/Message/Message";
 import { Loader } from "../../components/Loader/Loader";
 
@@ -18,8 +21,8 @@ export function UserDetails() {
     var [message, setMessage] = useState(null);
 
     var { userInfo } = useSelector((state) => state.userLogin);
+    var { success } = useSelector((state) => state.userUpdate);
     var { error, loading, user } = useSelector((state) => state.userDetails);
-
 
     useEffect(() => {
         if (!userInfo) {
@@ -40,6 +43,13 @@ export function UserDetails() {
             setMessage("Passwords do not match!!!");
         } else {
             //TODO: Dispatch Update Profile
+            dispatch(
+                updateUserProfile({
+                    id: user._id,
+                    name: user.name,
+                    email: user.email,
+                })
+            );
         }
     }
 
@@ -48,6 +58,9 @@ export function UserDetails() {
             <Col md={3}>
                 <h2>Profile</h2>
                 {error && <Message variant="danger">{error}</Message>}
+                {success && (
+                    <Message variant="success">Profile updated</Message>
+                )}
                 {message && <Message variant="danger">{message}</Message>}
                 {loading && <Loader />}
 
