@@ -10,6 +10,10 @@ import { CartScreen } from "./screens/Cart/CartScreen";
 import { ProductDetailScreen } from "./screens/ProductDetail/ProductDetailScreen";
 import { RegisterScreen } from "./screens/Register/RegisterScreen";
 import { UserDetails } from "./screens/UserDetails/UserDetails";
+import { ShippingScreen } from "./screens/ShippingScreen/ShippingScreen";
+import { PaymentScreen } from "./screens/Payment/PaymentScreen";
+import { PlaceOrderScreen } from "./screens/PlaceOrder/PlaceOrderScreen";
+import { OrderScreen } from "./screens/Order/OrderScreen";
 
 function App() {
     return (
@@ -26,9 +30,16 @@ function App() {
                             path="/product/:id"
                             element={<ProductDetailScreen />}
                         />
+                        <Route path="/order/:id" element={<OrderScreen />} />
                         <Route path="/signin" element={<SigninScreen />} />
                         <Route path="/register" element={<RegisterScreen />} />
-                        <Route path='/profile' element={<UserDetails />}/>
+                        <Route path="/profile" element={<UserDetails />} />
+                        <Route path="/shipping" element={<ShippingScreen />} />
+                        <Route path="/payment" element={<PaymentScreen />} />
+                        <Route
+                            path="/placeorder"
+                            element={<PlaceOrderScreen />}
+                        />
                         <Route path="/" element={<HomeScreen />} />
                     </Routes>
                 </Container>

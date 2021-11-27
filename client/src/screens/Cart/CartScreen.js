@@ -20,8 +20,8 @@ export function CartScreen() {
     var navigate = useNavigate();
     var location = useLocation();
     var { productId } = useParams();
+
     var { cartItems } = useSelector((state) => state.cart);
-    console.log(cartItems);
 
     var qty = Number(location.search.split("=")[1]);
 
@@ -36,8 +36,9 @@ export function CartScreen() {
     }
 
     function checkoutHandler() {
-        navigate("/login?redirect=shipping");
+        navigate("/shipping");
     }
+
     return (
         <Row>
             <Col md={8}>
@@ -49,7 +50,7 @@ export function CartScreen() {
                 ) : (
                     <ListGroup variant="flush">
                         {cartItems.map((item) => (
-                            <ListGroup.Item key={item.productId}>
+                            <ListGroup.Item key={item.product}>
                                 <Row>
                                     <Col md={2}>
                                         <Image
@@ -60,7 +61,7 @@ export function CartScreen() {
                                         />
                                     </Col>
                                     <Col md={4}>
-                                        <Link to={`/product/${item.productId}`}>
+                                        <Link to={`/product/${item.product}`}>
                                             {item.name}
                                         </Link>
                                     </Col>
@@ -72,7 +73,7 @@ export function CartScreen() {
                                             onChange={(e) =>
                                                 dispatch(
                                                     addToCart(
-                                                        item.productId,
+                                                        item.product,
                                                         Number(e.target.value)
                                                     )
                                                 )
@@ -84,7 +85,7 @@ export function CartScreen() {
                                                 ).keys(),
                                             ].map((x) => (
                                                 <option
-                                                    key={item.productId}
+                                                    key={item.product}
                                                     value={x + 1}
                                                 >
                                                     {x + 1}
@@ -98,7 +99,7 @@ export function CartScreen() {
                                             variant="danger"
                                             onClick={() =>
                                                 removeFromCartHandler(
-                                                    item.productId
+                                                    item.product
                                                 )
                                             }
                                         >

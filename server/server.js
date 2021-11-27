@@ -8,6 +8,7 @@ import { errorHandler, handleNotFound } from "./middlewares/errorHandler.js";
 // Routes
 import { productRoute } from "./api/Product/Product.route.js";
 import { userRoute } from "./api/User/User.route.js";
+import { orderRoute } from "./api/Order/Order.route.js";
 
 dotenv.config();
 dbConnect();
@@ -18,6 +19,7 @@ app.use(express.urlencoded({ extended: false }));
 // Routes
 app.use("/api/products", productRoute);
 app.use("/api/users", userRoute);
+app.use("/api/orders", orderRoute);
 
 // Middlewares
 app.all("*", handleNotFound);

@@ -40,26 +40,29 @@ Don't forget to create ```.env``` file. which will contain the environment varia
 - Redux
 - Font Awesome
 - Axios
+
 ### Components
 - Header
 - Footer
 - ProductCard
 - ReviewStars
 - Slider
+- Message
+- Loader
+- CheckoutSteps
 
 
 ### Screens
 - Home 
 - Shop 
-- Blog 
-- Blog Details 
 - Product Details
 - Checkout
+- Payment
+- Shipping
 - User Dashboard
 - Admin Dashboard
 - Signin/Signup
 - Cart
-- Contact Us
 
 
 

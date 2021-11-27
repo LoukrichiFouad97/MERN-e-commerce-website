@@ -1,4 +1,9 @@
-import { CART_ADD_ITEM, CART_REMOVE_ITEM } from "./cart.constants";
+import {
+    CART_ADD_ITEM,
+    CART_REMOVE_ITEM,
+    CART_SAVE_PAYMENT_METHOD,
+    CART_SAVE_SHIPPING_ADDRESS,
+} from "./cart.constants";
 /**
  *
  *
@@ -7,7 +12,10 @@ import { CART_ADD_ITEM, CART_REMOVE_ITEM } from "./cart.constants";
  * @param {*} action
  * @return {*}
  */
-export function cartReducer(state = { cartItems: [] }, action) {
+export function cartReducer(
+    state = { cartItems: [], shippingAddress: {} },
+    action
+) {
     switch (action.type) {
         case CART_ADD_ITEM:
             // var state = {
@@ -45,6 +53,10 @@ export function cartReducer(state = { cartItems: [] }, action) {
                     (x) => x.productId !== action.payload
                 ),
             };
+        case CART_SAVE_SHIPPING_ADDRESS:
+            return { ...state, shippingAddress: action.payload };
+        case CART_SAVE_PAYMENT_METHOD:
+            return { ...state, paymentMethod: action.payload };
         default:
             return state;
     }
