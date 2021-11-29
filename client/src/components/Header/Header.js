@@ -58,7 +58,7 @@ export function Header() {
                                     <i className="fas fa-user"> SIGN IN</i>
                                 </NavLink>
                             )}
-                            {/* 
+
                             {userInfo && userInfo.isAdmin && (
                                 <NavDropdown title="Admin" id="adminmenu">
                                     <NavLink
@@ -86,7 +86,7 @@ export function Header() {
                                         </NavDropdown.Item>
                                     </NavLink>
                                 </NavDropdown>
-                            )} */}
+                            )}
                         </Nav>
                     </Navbar.Collapse>
                 </Container>

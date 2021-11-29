@@ -3,10 +3,17 @@ import asyncHandler from "express-async-handler";
 import { User } from "./User.model.js";
 import { generateToken } from "../../utils/generateToken.js";
 
-export var authUser = asyncHandler(authUserHandler);
-export var getUserProfile = asyncHandler(getUserProfileHandler);
-export var createUser = asyncHandler(createUserHandler);
-export var updateUserProfile = asyncHandler(updateUserProfileHandler);
+// Users
+export { authUser, getUserProfile, createUser, updateUserProfile };
+var authUser = asyncHandler(authUserHandler);
+var getUserProfile = asyncHandler(getUserProfileHandler);
+var createUser = asyncHandler(createUserHandler);
+var updateUserProfile = asyncHandler(updateUserProfileHandler);
+
+// Admin
+export { getAllUsers, deleteUser };
+var getAllUsers = asyncHandler(getAllUsersHandler);
+var deleteUser = asyncHandler(deleteUserHandler);
 
 //*************************  Functionality ***********************//
 // @desc    Authenticate user & get token
@@ -97,7 +104,7 @@ async function createUserHandler(req, res) {
 // @access  Private
 async function updateUserProfileHandler(req, res) {
     var user = await User.findById(req.user);
-    console.log(req.user)
+    console.log(req.user);
 
     if (user) {
         user.name = req.body.name || user.name;
@@ -118,5 +125,35 @@ async function updateUserProfileHandler(req, res) {
     } else {
         res.status(404);
         throw new Error("User not found");
+    }
+}
+
+/*********************Admin*********************/
+// @desc    Get all users profiles
+// @route   GET /api/users
+// @access  Private/Admin
+async function getAllUsersHandler(req, res) {
+    var users = await User.find({});
+    res.status(200).send(users);
+}
+
+// @desc    Delete user by id
+// @route   DELETE /api/users/:id
+// @access  Private/Admin
+async function deleteUserHandler(req, res) {
+    var user = await User.findById(req.params.id);
+    if (user) {
+        await user.remove();
+        res.status(200).json({
+            status: "success",
+            statusCode: 200,
+            message: "User deleted successfully",
+        });
+    } else {
+        res.status(404).json({
+            status: "error",
+            statusCode: 404,
+            message: "User not found",
+        });
     }
 }

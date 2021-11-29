@@ -3,7 +3,13 @@ import jwt from "jsonwebtoken";
 
 import { User } from "../api/User/User.model.js";
 
-export var requireSignin = asyncHandler(async (req, res, next) => {
+export { requireSignin, isAdmin };
+
+var isAdmin = asyncHandler(isAdminHandler);
+var requireSignin = asyncHandler(requireSigninHandler);
+
+//*************************  Functionality ***********************//
+async function requireSigninHandler(req, res, next) {
     let token;
 
     if (
@@ -32,4 +38,17 @@ export var requireSignin = asyncHandler(async (req, res, next) => {
             message: "Unauthorized access",
         });
     }
-});
+}
+
+async function isAdminHandler(req, res, next) {
+    var user = await User.findById(req.user);
+    if (user.isAdmin) {
+        next();
+    } else {
+        res.status(401).json({
+            status: "fail",
+            statusCode: 401,
+            message: "You are not authorized",
+        });
+    }
+}

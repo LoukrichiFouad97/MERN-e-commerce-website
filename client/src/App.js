@@ -1,9 +1,11 @@
 import { Container } from "react-bootstrap";
 import { Routes, Route } from "react-router-dom";
 
+// Components
 import { Header } from "./components/Header/Header";
 import { Footer } from "./components/Footer/Footer";
 
+// Screens
 import { HomeScreen } from "./screens/Home/HomeScreen";
 import { SigninScreen } from "./screens/Signin/SigninScreen";
 import { CartScreen } from "./screens/Cart/CartScreen";
@@ -14,6 +16,7 @@ import { ShippingScreen } from "./screens/ShippingScreen/ShippingScreen";
 import { PaymentScreen } from "./screens/Payment/PaymentScreen";
 import { PlaceOrderScreen } from "./screens/PlaceOrder/PlaceOrderScreen";
 import { OrderScreen } from "./screens/Order/OrderScreen";
+import { UserListScreen } from "./screens/UserList/UserListScreen";
 
 function App() {
     return (
@@ -39,6 +42,10 @@ function App() {
                         <Route
                             path="/placeorder"
                             element={<PlaceOrderScreen />}
+                        />
+                        <Route
+                            path="/admin/userlist"
+                            element={<UserListScreen />}
                         />
                         <Route path="/" element={<HomeScreen />} />
                     </Routes>
