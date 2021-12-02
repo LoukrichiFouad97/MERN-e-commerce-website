@@ -5,7 +5,9 @@ import {
     createUser,
     deleteUser,
     getAllUsers,
+    getUserById,
     getUserProfile,
+    updateUser,
     updateUserProfile,
 } from "./User.controller.js";
 import { isAdmin, requireSignin } from "../../middlewares/auth.js";
@@ -19,4 +21,8 @@ userRoute
     .get(requireSignin, getUserProfile)
     .put(requireSignin, updateUserProfile);
 
-userRoute.route("/:id").delete(requireSignin, isAdmin, deleteUser);
+userRoute
+    .route("/:id")
+    .delete(requireSignin, isAdmin, deleteUser)
+    .get(requireSignin, isAdmin, getUserById)
+    .put(requireSignin, isAdmin, updateUser);

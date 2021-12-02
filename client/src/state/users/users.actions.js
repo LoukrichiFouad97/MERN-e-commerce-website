@@ -22,6 +22,9 @@ import {
     USER_DELETE_REQUEST,
     USER_DELETE_SUCCESS,
     USER_DELETE_FAIL,
+    USER_UPDATE_SUCCESS,
+    USER_UPDATE_FAIL,
+    USER_UPDATE_REQUEST,
 } from "./users.constants";
 
 export {
@@ -32,6 +35,7 @@ export {
     updateUserProfile,
     getAllUsers,
     deleteUser,
+    updateUser,
 };
 
 function login(email, password) {
@@ -122,28 +126,30 @@ function getUserDetails(userId) {
     return async function (dispatch, getState) {
         try {
             dispatch({ type: USER_DETAILS_REQUEST });
-            console.log("sdaf");
+
             var {
                 userLogin: { userInfo },
             } = getState();
 
             var config = {
                 headers: {
-                    "Content-Type": "application/json",
                     Authorization: `Bearer ${userInfo.token}`,
                 },
             };
             var { data } = await axios.get(`/api/users/${userId}`, config);
-            console.log(data);
 
             dispatch({ type: USER_DETAILS_SUCCESS, payload: data });
         } catch (error) {
+            var message =
+                error.response && error.response.data.message
+                    ? error.response.data.message
+                    : error.message;
+            if (message === "Not authorized, token failed") {
+                dispatch(logout());
+            }
             dispatch({
                 type: USER_DETAILS_FAIL,
-                payload:
-                    error.response && error.response.data.message
-                        ? error.response.data.message
-                        : error.message,
+                payload: message,
             });
         }
     };
@@ -220,7 +226,7 @@ function deleteUser(userId) {
                     Authorization: `Bearer ${userInfo.token}`,
                 },
             };
-            
+
             await axios.delete(`/api/users/${userId}`, config);
 
             dispatch({ type: USER_DELETE_SUCCESS });
@@ -231,6 +237,48 @@ function deleteUser(userId) {
                     error.response && error.response.data.message
                         ? error.response.data.message
                         : error.message,
+            });
+        }
+    };
+}
+
+function updateUser(user) {
+    return async function (dispatch, getState) {
+        try {
+            dispatch({ type: USER_UPDATE_REQUEST });
+            var {
+                userLogin: { userInfo },
+            } = getState();
+
+            var config = {
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${userInfo.token}`,
+                },
+            };
+
+            var { data } = await axios.put(
+                `/api/users/${user._id}`,
+                user,
+                config
+            );
+
+            dispatch({ type: USER_UPDATE_SUCCESS });
+            dispatch({ type: USER_DETAILS_SUCCESS, payload: data });
+
+            dispatch({ type: USER_DETAILS_RESET });
+        } catch (error) {
+            var message =
+                error.response && error.response.data.message
+                    ? error.response.data.message
+                    : error.message;
+
+            if (message === "Not authorized, token failed") {
+                dispatch(logout());
+            }
+            dispatch({
+                type: USER_UPDATE_FAIL,
+                payload: message,
             });
         }
     };

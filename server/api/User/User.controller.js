@@ -3,7 +3,7 @@ import asyncHandler from "express-async-handler";
 import { User } from "./User.model.js";
 import { generateToken } from "../../utils/generateToken.js";
 
-// Users
+// User
 export { authUser, getUserProfile, createUser, updateUserProfile };
 var authUser = asyncHandler(authUserHandler);
 var getUserProfile = asyncHandler(getUserProfileHandler);
@@ -11,9 +11,11 @@ var createUser = asyncHandler(createUserHandler);
 var updateUserProfile = asyncHandler(updateUserProfileHandler);
 
 // Admin
-export { getAllUsers, deleteUser };
+export { getAllUsers, deleteUser, getUserById, updateUser };
 var getAllUsers = asyncHandler(getAllUsersHandler);
 var deleteUser = asyncHandler(deleteUserHandler);
+var getUserById = asyncHandler(getUserByIdHandler);
+var updateUser = asyncHandler(updateUserHandler);
 
 //*************************  Functionality ***********************//
 // @desc    Authenticate user & get token
@@ -155,5 +157,54 @@ async function deleteUserHandler(req, res) {
             statusCode: 404,
             message: "User not found",
         });
+    }
+}
+
+// @desc    Get user by id
+// @route   GET /api/users/:id
+// @access  Private/Admin
+async function getUserByIdHandler(req, res) {
+    var user = await User.findById(req.params.id).select("-password");
+    if (user) {
+        res.status(200).json({
+            status: "success",
+            statusCode: 200,
+            message: user,
+        });
+    } else {
+        res.status(404).json({
+            status: "error",
+            statusCode: 404,
+            message: "User not found",
+        });
+    }
+}
+
+// @desc    Update user
+// @route   GET /api/users/:id
+// @access  Private/Admin
+async function updateUserHandler(req, res) {
+    var user = await User.findById(req.params.id);
+
+    if (user) {
+        user.name = req.body.name || user.name;
+        user.email = req.body.email || user.email;
+        user.isAdmin = req.body.isAdmin;
+
+        var updatedUser = await user.save();
+
+        res.status(201).json({
+            status: "success",
+            statusCode: 201,
+            message: {
+                _id: updatedUser._id,
+                name: updatedUser.name,
+                email: updatedUser.email,
+                isAdmin: updatedUser.isAdmin,
+            },
+        });
+    } else {
+        res.status(404);
+        throw new Error("User not found");
     }
 }
